@@ -159,12 +159,22 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CitaController.cs" />
+    <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ServicioController.cs" />
+    <Compile Include="Controllers\SucursaleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810251722019_Initial.cs" />
+    <Compile Include="Migrations\201810251722019_Initial.Designer.cs">
+      <DependentUpon>201810251722019_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cita.cs" />
     <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\GOBUSContext.cs" />
     <Compile Include="Models\Servicio.cs" />
     <Compile Include="Models\Sucursale.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -211,6 +221,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Cita\" />
+    <Folder Include="Views\Cliente\" />
+    <Folder Include="Views\Servicio\" />
+    <Folder Include="Views\Sucursale\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -224,6 +238,11 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201810251722019_Initial.resx">
+      <DependentUpon>201810251722019_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
