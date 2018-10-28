@@ -167,9 +167,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810251722019_Initial.cs" />
-    <Compile Include="Migrations\201810251722019_Initial.Designer.cs">
-      <DependentUpon>201810251722019_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201810280144421_initial.cs" />
+    <Compile Include="Migrations\201810280144421_initial.Designer.cs">
+      <DependentUpon>201810280144421_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cita.cs" />
@@ -227,11 +227,20 @@
     <Content Include="Views\Cita\Details.cshtml" />
     <Content Include="Views\Cita\Delete.cshtml" />
     <Content Include="Views\Cita\Create.cshtml" />
+    <Content Include="Views\Cita\Edit.cshtml" />
+    <Content Include="Views\Sucursale\Index.cshtml" />
+    <Content Include="Views\Sucursale\Details.cshtml" />
+    <Content Include="Views\Sucursale\Create.cshtml" />
+    <Content Include="Views\Sucursale\Edit.cshtml" />
+    <Content Include="Views\Sucursale\Delete.cshtml" />
+    <Content Include="Views\Servicio\Index.cshtml" />
+    <Content Include="Views\Servicio\Details.cshtml" />
+    <Content Include="Views\Servicio\Create.cshtml" />
+    <Content Include="Views\Servicio\Edit.cshtml" />
+    <Content Include="Views\Servicio\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Servicio\" />
-    <Folder Include="Views\Sucursale\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -242,13 +251,15 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810251722019_Initial.resx">
-      <DependentUpon>201810251722019_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810280144421_initial.resx">
+      <DependentUpon>201810280144421_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
