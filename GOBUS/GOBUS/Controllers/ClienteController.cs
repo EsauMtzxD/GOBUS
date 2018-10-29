@@ -1,4 +1,7 @@
-﻿using GOBUS.Models;
+﻿using GOBUS.Data;
+using GOBUS.Data.Contratos;
+using GOBUS.Data.Repositorios;
+using GOBUS.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -13,27 +16,49 @@ namespace GOBUS.Controllers
 
         private GOBUSContext dbCtx = new GOBUSContext();
 
+        private IRepositorioCliente<Cliente> ClienteRepository;
+
+        public ClienteController()
+        {
+            this.ClienteRepository = new RepositorioCliente<Cliente>(new GOBUSContext());
+        }
+
+        
+
+        public ClienteController(IRepositorioCliente<Cliente> repositorioCliente)
+        {
+            this.ClienteRepository = repositorioCliente;
+        }
+
         public ActionResult Index()
         {
 
-            List<Cliente> cliente = new List<Cliente>();
+            //List<Cliente> cliente = new List<Cliente>();
 
-            cliente = dbCtx.Clientes.OrderBy(x => x.Apellidos).ToList();
+            //cliente = dbCtx.Clientes.OrderBy(x => x.Apellidos).ToList();
+
+            var cliente = from c in ClienteRepository.GetCliente()
+                          select c;
 
             return View(cliente);
+
+
+
         }
 
         public ActionResult Details(int id)
         {
 
-            Cliente cliente = dbCtx.Clientes.Find(id);
+            //Cliente cliente = dbCtx.Clientes.Find(id);
 
-            if(cliente == null)
-            {
+            //if(cliente == null)
+            //{
 
-                return HttpNotFound();
+            //    return HttpNotFound();
 
-            }
+            //}
+
+            Cliente cliente = ClienteRepository.GetClienteByID(id);
 
             return View(cliente);
         }
@@ -54,9 +79,12 @@ namespace GOBUS.Controllers
                     try
                     {
 
-                        dbCtx.Clientes.Add(cliente);
+                        //dbCtx.Clientes.Add(cliente);
 
-                        dbCtx.SaveChanges();
+                        //dbCtx.SaveChanges();
+
+                        ClienteRepository.InsertCliente(cliente);
+                        ClienteRepository.Save();
 
                     }
                     catch (DbEntityValidationException e)
@@ -86,16 +114,18 @@ namespace GOBUS.Controllers
         public ActionResult Edit(int id)
         {
 
-            Cliente cliente = dbCtx.Clientes.Find(id);
+            //Cliente cliente = dbCtx.Clientes.Find(id);
 
-            if(cliente == null)
-            {
+            //if(cliente == null)
+            //{
 
-                return HttpNotFound();
+            //    return HttpNotFound();
 
-            }
+            //}
 
-            return View(cliente);
+            Cliente c = ClienteRepository.GetClienteByID(id);
+
+            return View(c);
         }
 
         [HttpPost]
@@ -110,9 +140,12 @@ namespace GOBUS.Controllers
                     try
                     {
 
-                        dbCtx.Entry(cliente).State = System.Data.Entity.EntityState.Modified;
+                        //dbCtx.Entry(cliente).State = System.Data.Entity.EntityState.Modified;
 
-                        dbCtx.SaveChanges();
+                        //dbCtx.SaveChanges();
+
+                        ClienteRepository.UpdateCliente(cliente);
+                        ClienteRepository.Save();
 
                     }
                     catch (DbEntityValidationException e)
@@ -139,19 +172,21 @@ namespace GOBUS.Controllers
             }
         }
 
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
 
-            Cliente cliente = dbCtx.Clientes.Find(id);
+            //Cliente cliente = dbCtx.Clientes.Find(id);
 
-            if(cliente == null)
-            {
+            //if(cliente == null)
+            //{
 
-                return HttpNotFound();
+            //    return HttpNotFound();
 
-            }
+            //}
 
-            return View(cliente);
+            Cliente c = ClienteRepository.GetClienteByID(id);
+
+            return View(c);
         }
 
         [HttpPost]
@@ -163,11 +198,15 @@ namespace GOBUS.Controllers
                 try
                 {
 
-                    Cliente cliente = dbCtx.Clientes.Find(id);
+                    //Cliente cliente = dbCtx.Clientes.Find(id);
 
-                    dbCtx.Clientes.Remove(cliente);
+                    //dbCtx.Clientes.Remove(cliente);
 
-                    dbCtx.SaveChanges();
+                    //dbCtx.SaveChanges();
+
+                    Cliente c = ClienteRepository.GetClienteByID(id);
+                    ClienteRepository.DeleteCliente(id);
+                    ClienteRepository.Save();
 
                 }
                 catch (DbEntityValidationException e)

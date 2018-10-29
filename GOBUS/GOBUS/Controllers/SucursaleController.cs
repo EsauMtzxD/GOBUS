@@ -1,4 +1,6 @@
-﻿using GOBUS.Models;
+﻿using GOBUS.Data.Contratos;
+using GOBUS.Data.Repositorios;
+using GOBUS.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -11,14 +13,33 @@ namespace GOBUS.Controllers
     public class SucursaleController : Controller
     {
 
-        private GOBUSContext dbCtx = new GOBUSContext(); 
+        private GOBUSContext dbCtx = new GOBUSContext();
+
+        private IRepositorioSucursale<Sucursale> RepositorioSucursale;
+
+        public SucursaleController()
+        {
+
+            this.RepositorioSucursale = new RepositorioSucursale<Sucursale>(new GOBUSContext());
+
+        }
+
+        public SucursaleController(IRepositorioSucursale<Sucursale> repositorioSucursale)
+        {
+
+            this.RepositorioSucursale = repositorioSucursale;
+
+        }
 
         public ActionResult Index()
         {
 
-            List<Sucursale> sucursales = new List<Sucursale>();
+            //List<Sucursale> sucursales = new List<Sucursale>();
 
-            sucursales = dbCtx.Sucursales.OrderBy(x => x.Nombre).ToList();
+            //sucursales = dbCtx.Sucursales.OrderBy(x => x.Nombre).ToList();
+
+            var sucursales = from s in RepositorioSucursale.GetSucursales()
+                             select s;
 
             return View(sucursales);
         }
@@ -26,14 +47,16 @@ namespace GOBUS.Controllers
         public ActionResult Details(int id)
         {
 
-            Sucursale sucursale = dbCtx.Sucursales.Find(id);
+            //Sucursale sucursale = dbCtx.Sucursales.Find(id);
 
-            if(sucursale == null)
-            {
+            //if(sucursale == null)
+            //{
 
-                return HttpNotFound();
+            //    return HttpNotFound();
 
-            }
+            //}
+
+            Sucursale sucursale = RepositorioSucursale.GetSucursaleById(id);
 
             return View(sucursale);
         }
@@ -55,9 +78,12 @@ namespace GOBUS.Controllers
                     try
                     {
 
-                        dbCtx.Sucursales.Add(sucursale);
+                        //dbCtx.Sucursales.Add(sucursale);
 
-                        dbCtx.SaveChanges();
+                        //dbCtx.SaveChanges();
+
+                        RepositorioSucursale.InsertarSucursale(sucursale);
+                        RepositorioSucursale.Save();
 
                     }
                     catch (DbEntityValidationException e)
@@ -87,14 +113,16 @@ namespace GOBUS.Controllers
         public ActionResult Edit(int id)
         {
 
-            Sucursale sucursale = dbCtx.Sucursales.Find(id);
+            //Sucursale sucursale = dbCtx.Sucursales.Find(id);
 
-            if(sucursale == null)
-            {
+            //if(sucursale == null)
+            //{
 
-                return HttpNotFound();
+            //    return HttpNotFound();
 
-            }
+            //}
+
+            Sucursale sucursale = RepositorioSucursale.GetSucursaleById(id);
 
             return View(sucursale);
         }
@@ -109,8 +137,12 @@ namespace GOBUS.Controllers
                 {
                     try
                     {
-                        dbCtx.Entry(sucursale).State = System.Data.Entity.EntityState.Modified;
-                        dbCtx.SaveChanges();
+                        //dbCtx.Entry(sucursale).State = System.Data.Entity.EntityState.Modified;
+                        //dbCtx.SaveChanges();
+
+                        RepositorioSucursale.UpdateSucursale(sucursale);
+                        RepositorioSucursale.Save();
+
                     }
                     catch (DbEntityValidationException e)
                     {
@@ -140,17 +172,19 @@ namespace GOBUS.Controllers
             }
         }
 
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
 
-            Sucursale sucursale = dbCtx.Sucursales.Find(id);
+            //Sucursale sucursale = dbCtx.Sucursales.Find(id);
 
-            if(sucursale == null)
-            {
+            //if(sucursale == null)
+            //{
 
-                return HttpNotFound();
+            //    return HttpNotFound();
 
-            }
+            //}
+
+            Sucursale sucursale = RepositorioSucursale.GetSucursaleById(id);
 
             return View(sucursale);
         }
@@ -163,11 +197,15 @@ namespace GOBUS.Controllers
 
                 try
                 {
-                    Sucursale sucursale = dbCtx.Sucursales.Find(id);
+                    //Sucursale sucursale = dbCtx.Sucursales.Find(id);
 
-                    dbCtx.Sucursales.Remove(sucursale);
+                    //dbCtx.Sucursales.Remove(sucursale);
 
-                    dbCtx.SaveChanges();
+                    //dbCtx.SaveChanges();
+
+                    Sucursale s = RepositorioSucursale.GetSucursaleById(id);
+                    RepositorioSucursale.DeleteSucursale(id);
+                    RepositorioSucursale.Save();
 
                 }
                 catch (DbEntityValidationException e)

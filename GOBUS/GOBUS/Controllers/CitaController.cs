@@ -1,4 +1,6 @@
-﻿using GOBUS.Models;
+﻿using GOBUS.Data.Contratos;
+using GOBUS.Data.Repositorios;
+using GOBUS.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -13,12 +15,31 @@ namespace GOBUS.Controllers
 
         private Models.GOBUSContext dbCtx = new Models.GOBUSContext();
 
+        private IRepositorioCitas<Cita> CitaRepositorio;
+
+        public CitaController()
+        {
+
+            this.CitaRepositorio = new RepositorioCita<Cita>(new GOBUSContext());
+
+        }
+
+        public CitaController(IRepositorioCitas<Cita> repositorioCita)
+        {
+
+            this.CitaRepositorio = repositorioCita;
+
+        }
+
         public ActionResult Index()
         {
 
-            List<Cita> citas = new List<Cita>();
+            //List<Cita> citas = new List<Cita>();
 
-            citas = dbCtx.Citas.OrderBy(x => x.FechaCita).ToList();
+            //citas = dbCtx.Citas.OrderBy(x => x.FechaCita).ToList();
+
+            var citas = from c in CitaRepositorio.GetCita()
+                        select c;
 
             return View(citas);
         }
@@ -27,16 +48,18 @@ namespace GOBUS.Controllers
         public ActionResult Details(int id)
         {
 
-            Cita cita = dbCtx.Citas.Find(id);
+            //Cita cita = dbCtx.Citas.Find(id);
 
-            if(cita == null)
-            {
+            //if(cita == null)
+            //{
 
-                return HttpNotFound();
+            //    return HttpNotFound();
 
-            }
+            //}
 
-            return View(cita);
+            Cita citas = CitaRepositorio.GetCitaByID(id);
+
+            return View(citas);
         }
 
         
@@ -57,9 +80,12 @@ namespace GOBUS.Controllers
                     try
                     {
 
-                        dbCtx.Citas.Add(cita);
+                        //dbCtx.Citas.Add(cita);
 
-                        dbCtx.SaveChanges();
+                        //dbCtx.SaveChanges();
+
+                        CitaRepositorio.InsertCita(cita);
+                        CitaRepositorio.Save();
 
                     }
                     catch (DbEntityValidationException e)
@@ -90,14 +116,16 @@ namespace GOBUS.Controllers
         public ActionResult Edit(int id)
         {
 
-            Cita cita = dbCtx.Citas.Find(id);
+            //Cita cita = dbCtx.Citas.Find(id);
 
-            if(cita == null)
-            {
+            //if(cita == null)
+            //{
 
-                return HttpNotFound();
+            //    return HttpNotFound();
 
-            }
+            //}
+
+            Cita cita = CitaRepositorio.GetCitaByID(id);
 
             return View(cita);
         }
@@ -114,9 +142,12 @@ namespace GOBUS.Controllers
                     try
                     {
 
-                        dbCtx.Entry(cita).State = System.Data.Entity.EntityState.Modified;
+                        //dbCtx.Entry(cita).State = System.Data.Entity.EntityState.Modified;
 
-                        dbCtx.SaveChanges();
+                        //dbCtx.SaveChanges();
+
+                        CitaRepositorio.UpdateCita(cita);
+                        CitaRepositorio.Save();
 
                     }
                     catch (DbEntityValidationException e)
@@ -143,17 +174,19 @@ namespace GOBUS.Controllers
             }
         }
 
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
 
-            Cita cita = dbCtx.Citas.Find(id);
+            //Cita cita = dbCtx.Citas.Find(id);
 
-            if(cita == null)
-            {
+            //if(cita == null)
+            //{
 
-                return HttpNotFound();
+            //    return HttpNotFound();
 
-            }
+            //}
+
+            Cita cita = CitaRepositorio.GetCitaByID(id);
 
             return View(cita);
         }
@@ -168,11 +201,15 @@ namespace GOBUS.Controllers
                 try
                 {
 
-                    Cita cita = dbCtx.Citas.Find(id);
+                    //Cita cita = dbCtx.Citas.Find(id);
 
-                    dbCtx.Citas.Remove(cita);
+                    //dbCtx.Citas.Remove(cita);
 
-                    dbCtx.SaveChanges();
+                    //dbCtx.SaveChanges();
+
+                    Cita c = CitaRepositorio.GetCitaByID(id);
+                    CitaRepositorio.DeleteCita(id);
+                    CitaRepositorio.Save();
 
                 }
                 catch (DbEntityValidationException e)

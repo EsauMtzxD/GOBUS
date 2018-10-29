@@ -164,6 +164,15 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ServicioController.cs" />
     <Compile Include="Controllers\SucursaleController.cs" />
+    <Compile Include="Data\Contratos\IRepositorioCitas.cs" />
+    <Compile Include="Data\Contratos\IRepositorioCliente.cs" />
+    <Compile Include="Data\Contratos\IRepositorioServicio.cs" />
+    <Compile Include="Data\Contratos\IRepositorioSucursale.cs" />
+    <Compile Include="Data\ParametrosDeQuery.cs" />
+    <Compile Include="Data\Repositorios\RepositorioCita.cs" />
+    <Compile Include="Data\Repositorios\RepositorioCliente.cs" />
+    <Compile Include="Data\Repositorios\RepositorioServicio.cs" />
+    <Compile Include="Data\Repositorios\RepositorioSucursale.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -224,10 +233,6 @@
     <Content Include="Views\Cliente\Edit.cshtml" />
     <Content Include="Views\Cliente\Delete.cshtml" />
     <Content Include="Views\Cita\Index.cshtml" />
-    <Content Include="Views\Cita\Details.cshtml" />
-    <Content Include="Views\Cita\Delete.cshtml" />
-    <Content Include="Views\Cita\Create.cshtml" />
-    <Content Include="Views\Cita\Edit.cshtml" />
     <Content Include="Views\Sucursale\Index.cshtml" />
     <Content Include="Views\Sucursale\Details.cshtml" />
     <Content Include="Views\Sucursale\Create.cshtml" />
@@ -238,6 +243,10 @@
     <Content Include="Views\Servicio\Create.cshtml" />
     <Content Include="Views\Servicio\Edit.cshtml" />
     <Content Include="Views\Servicio\Delete.cshtml" />
+    <Content Include="Views\Cita\Details.cshtml" />
+    <Content Include="Views\Cita\Create.cshtml" />
+    <Content Include="Views\Cita\Edit.cshtml" />
+    <Content Include="Views\Cita\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

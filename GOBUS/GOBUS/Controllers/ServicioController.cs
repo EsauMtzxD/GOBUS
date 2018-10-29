@@ -1,4 +1,6 @@
-﻿using GOBUS.Models;
+﻿using GOBUS.Data.Contratos;
+using GOBUS.Data.Repositorios;
+using GOBUS.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -13,12 +15,31 @@ namespace GOBUS.Controllers
 
         private GOBUSContext dbCtx = new GOBUSContext();
 
+        private IRepositorioServicio<Servicio> RepositorioServicio;
+
+        public ServicioController()
+        {
+
+            this.RepositorioServicio = new RepositorioServicio<Servicio>(new GOBUSContext());
+
+        }
+
+        public ServicioController(IRepositorioServicio<Servicio> repositorioServicio)
+        {
+
+            this.RepositorioServicio = repositorioServicio;
+
+        }
+
         public ActionResult Index()
         {
 
-            List<Servicio> servicios = new List<Servicio>();
+            //List<Servicio> servicios = new List<Servicio>();
 
-            servicios = dbCtx.Servicios.OrderBy(x => x.NombreServicio).ToList();
+            //servicios = dbCtx.Servicios.OrderBy(x => x.NombreServicio).ToList();
+
+            var servicios = from s in RepositorioServicio.GetServicios()
+                            select s;
 
             return View(servicios);
         }
@@ -26,14 +47,16 @@ namespace GOBUS.Controllers
         public ActionResult Details(int id)
         {
 
-            Servicio servicio = dbCtx.Servicios.Find(id);
+            //Servicio servicio = dbCtx.Servicios.Find(id);
 
-            if(servicio == null)
-            {
+            //if(servicio == null)
+            //{
 
-                return HttpNotFound();
+            //    return HttpNotFound();
 
-            }
+            //}
+
+            Servicio servicio = RepositorioServicio.GetServicioById(id);
 
             return View(servicio);
         }
@@ -55,9 +78,12 @@ namespace GOBUS.Controllers
                     try
                     {
 
-                        dbCtx.Servicios.Add(servicio);
+                        //dbCtx.Servicios.Add(servicio);
 
-                        dbCtx.SaveChanges();
+                        //dbCtx.SaveChanges();
+
+                        RepositorioServicio.InsertarServicio(servicio);
+                        RepositorioServicio.Save();
 
                     }
                     catch (DbEntityValidationException e)
@@ -87,14 +113,16 @@ namespace GOBUS.Controllers
         public ActionResult Edit(int id)
         {
 
-            Servicio servicio = dbCtx.Servicios.Find(id);
+            //Servicio servicio = dbCtx.Servicios.Find(id);
 
-            if(servicio == null)
-            {
+            //if(servicio == null)
+            //{
 
-                return HttpNotFound();
+            //    return HttpNotFound();
 
-            }
+            //}
+
+            Servicio servicio = RepositorioServicio.GetServicioById(id);
 
             return View(servicio);
         }
@@ -111,9 +139,12 @@ namespace GOBUS.Controllers
                     try
                     {
 
-                        dbCtx.Entry(servicio).State = System.Data.Entity.EntityState.Modified;
+                        //dbCtx.Entry(servicio).State = System.Data.Entity.EntityState.Modified;
 
-                        dbCtx.SaveChanges();
+                        //dbCtx.SaveChanges();
+
+                        RepositorioServicio.UpdateServicio(servicio);
+                        RepositorioServicio.Save();
 
                     }
                     catch (DbEntityValidationException e)
@@ -140,17 +171,19 @@ namespace GOBUS.Controllers
             }
         }
 
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
 
-            Servicio servicio = dbCtx.Servicios.Find(id);
+            //Servicio servicio = dbCtx.Servicios.Find(id);
 
-            if(servicio == null)
-            {
+            //if(servicio == null)
+            //{
 
-                return HttpNotFound();
+            //    return HttpNotFound();
 
-            }
+            //}
+
+            Servicio servicio = RepositorioServicio.GetServicioById(id);
 
             return View(servicio);
         }
@@ -164,11 +197,15 @@ namespace GOBUS.Controllers
                 try
                 {
 
-                    Servicio servicio = dbCtx.Servicios.Find(id);
+                    //Servicio servicio = dbCtx.Servicios.Find(id);
 
-                    dbCtx.Servicios.Remove(servicio);
+                    //dbCtx.Servicios.Remove(servicio);
 
-                    dbCtx.SaveChanges();
+                    //dbCtx.SaveChanges();
+
+                    Servicio s = RepositorioServicio.GetServicioById(id);
+                    RepositorioServicio.DeleteServicio(id);
+                    RepositorioServicio.Save();
 
                 }
                 catch (DbEntityValidationException e)

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GOBUS.Models.Cita>
+﻿@model GOBUS.Models.Cita
 
 @{
     ViewBag.Title = "Delete";
@@ -7,46 +7,51 @@
 
 <h2>Delete</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Cita</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
             @Html.DisplayNameFor(model => model.PlacaNumero)
-        </th>
-        <th>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlacaNumero)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.FechaCita)
-        </th>
-        <th>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaCita)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.IdCliente)
-        </th>
-        <th>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdCliente)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.IdSucursal)
-        </th>
-        <th></th>
-    </tr>
+        </dt>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PlacaNumero)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaCita)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdCliente)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdSucursal)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+        <dd>
+            @Html.DisplayFor(model => model.IdSucursal)
+        </dd>
 
-</table>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
